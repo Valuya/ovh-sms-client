@@ -1,6 +1,5 @@
 package be.valuya.ovh.sms.client;
 
-import be.valuya.ovh.sms.client.SmsClient;
 import be.valuya.ovh.sms.domain.SmsCoding;
 import be.valuya.ovh.sms.domain.SmsJob;
 import be.valuya.ovh.sms.domain.SmsMessage;
@@ -19,18 +18,20 @@ public class SmsClientTest {
     @Test
     @Ignore
     public void testSendSms() {
+        // auth and account data
+        String appKey = "xxxxx";
+        String appSecret = "yyyyyyyyyyyyyyyyyyyyy";
+        String consumerKey = "abcdefgabcdefgabcdefgabcdefgabcdefg";
+        String serviceName = "sms-my1865-1";
+
         SmsMessage smsMessage = new SmsMessage();
         smsMessage.setSender("valuya.be");
         smsMessage.setMessage("¿Qué pasa tronco?");
         smsMessage.setReceivers(Arrays.asList("+32498707213"));
         smsMessage.setSmsCoding(SmsCoding.EIGHT_BIT);
 
-        String appKey = "xxxxx";
-        String appSecret = "yyyyyyyyyyyyyyyyyyyyy";
-        String consumerKey = "abcdefgabcdefgabcdefgabcdefgabcdefg";
-
         SmsClient smsClient = new SmsClient(appSecret, appKey, consumerKey);
-        SmsJob smsJob = smsClient.sendSms("sms-my1865-1", smsMessage);
+        SmsJob smsJob = smsClient.sendSms(serviceName, smsMessage);
 
         List<String> invalidReceivers = smsJob.getInvalidReceivers();
 
