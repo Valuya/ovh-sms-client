@@ -10,7 +10,7 @@ It just uses POJOs and standard JAX-RS to communicate with OVH. A [ClientRequest
 Contrary to other samples found on the web, including on OVH web site, it works with UTF-8 characters.
 
 # Setup and testing
-Create an API key and stuff [there](https://eu.api.ovh.com/createToken/?GET=/sms&GET=/sms/*/jobs&POST=/sms/*/jobs&duration=2592000) if you don't have them. You should grant GET role on /sms and GET/POST on /sms/*/jobs (no slashes at the end contrary to what OVH guide says, or it will fail with 403!).
+Create an API key and stuff [there](https://eu.api.ovh.com/createToken/?GET=/sms&GET=/sms/*/jobs&POST=/sms/*/jobs&duration=2592000) if you don't have them. You should grant _GET_ role on _/sms_ and _GET+POST_ on _/sms/*/jobs_ (no slashes at the end contrary to what OVH guide says, or it will fail with HTTP status 403!).
 
 You can paste the generated app key/secret, consumer key and service name in SmsClientTest and remove @Ignore to test it.
 
