@@ -28,6 +28,7 @@ public class OvhRestException extends RuntimeException {
         this.httpCode = httpCode;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
