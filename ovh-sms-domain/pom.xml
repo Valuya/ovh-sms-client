@@ -5,6 +5,29 @@
     <artifactId>ovh-sms-domain</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+
+    <name>OVH Sms Domain Classes</name>
+    <description>OVH SMS Client - Common classes</description>
+    <url>https://github.com/Valuya/ovh-sms-client</url>
+    <licenses>
+        <license>
+            <name>GNU General Public License (GPL)</name>
+            <url>http://www.gnu.org/licenses/gpl.txt</url>
+        </license>    
+    </licenses>
+    <scm>
+        <url>https://github.com/Valuya/ovh-sms-client</url>
+        <connection>scm:git:git://github.com/Valuya/ovh-sms-client</connection>
+    </scm>
+    <developers>
+        <developer>
+            <id>ymajoros</id>
+            <name>Yannick Majoros</name>
+            <email>yannick@valuya.be</email>
+            <url>https://github.com/orgs/Valuya/people/ymajoros</url>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -12,6 +35,46 @@
     </properties>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
