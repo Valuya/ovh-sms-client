@@ -22,7 +22,7 @@ public class SmsClientTest {
         String appKey = "xxxxx";
         String appSecret = "yyyyyyyyyyyyyyyyyyyyy";
         String consumerKey = "abcdefgabcdefgabcdefgabcdefgabcdefg";
-        String serviceName = "sms-my1865-1";
+        String serviceName = "zzzzzzzz";
 
         SmsMessage smsMessage = new SmsMessage();
         smsMessage.setSender("valuya.be");
