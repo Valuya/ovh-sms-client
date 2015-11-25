@@ -6,7 +6,6 @@ import be.valuya.ovh.sms.domain.SmsMessage;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
