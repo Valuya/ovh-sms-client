@@ -19,11 +19,10 @@ public class SmsClient {
 
     private static final String OVH_BASE_URL = "https://eu.api.ovh.com/1.0/";
 
-    private transient Client client;
+    private transient Client jaxRsClient;
 
     /**
-     * Empty constructor to be able to get a CDI proxy. Please init() before
-     * use.
+     * Empty constructor to be able to get a CDI proxy. Please init() before use.
      *
      */
     public SmsClient() {
@@ -33,15 +32,24 @@ public class SmsClient {
         init(appSecret, appKey, consumerKey);
     }
 
+    public SmsClient(Client jaxRsClient, String appSecret, String appKey, String consumerKey) {
+        init(jaxRsClient, appSecret, appKey, consumerKey);
+    }
+
     public void init(String appSecret, String appKey, String consumerKey) {
-        OvhRequestFilter ovhRequestFilter = new OvhRequestFilter(appSecret, appKey, consumerKey);
-        client = ClientBuilder.newBuilder()
+        Client client = ClientBuilder.newBuilder()
                 .build();
-        client.register(ovhRequestFilter);
+        init(client, appSecret, appKey, consumerKey);
+    }
+
+    public void init(Client jaxRsClient, String appSecret, String appKey, String consumerKey) {
+        this.jaxRsClient = jaxRsClient;
+        OvhRequestFilter ovhRequestFilter = new OvhRequestFilter(appSecret, appKey, consumerKey);
+        jaxRsClient.register(ovhRequestFilter);
     }
 
     public SmsJob sendSms(String serviceName, SmsMessage smsMessage) throws OvhRestException {
-        if (client == null) {
+        if (jaxRsClient == null) {
             throw new IllegalStateException("Client not initialized");
         }
 
@@ -51,7 +59,7 @@ public class SmsClient {
                 .path("jobs")
                 .build(serviceName);
 
-        WebTarget target = client.target(smsUri);
+        WebTarget target = jaxRsClient.target(smsUri);
 
         Entity<SmsMessage> smsEntity = Entity.entity(smsMessage, MediaType.APPLICATION_JSON_TYPE);
         SmsJob smsJob;
