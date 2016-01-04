@@ -5,6 +5,9 @@ import be.valuya.ovh.sms.domain.SmsJob;
 import be.valuya.ovh.sms.domain.SmsMessage;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import javax.net.ssl.SSLContext;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -22,7 +25,8 @@ public class SmsClient {
     private transient Client jaxRsClient;
 
     /**
-     * Empty constructor to be able to get a CDI proxy. Please init() before use.
+     * Empty constructor to be able to get a CDI proxy. Please init() before
+     * use.
      *
      */
     public SmsClient() {
@@ -37,9 +41,17 @@ public class SmsClient {
     }
 
     public void init(String appSecret, String appKey, String consumerKey) {
-        Client client = ClientBuilder.newBuilder()
-                .build();
-        init(client, appSecret, appKey, consumerKey);
+        try {
+            SSLContext sslContext = SSLContext.getInstance("tlsv1");
+            sslContext.init(null, null, null);
+
+            Client client = ClientBuilder.newBuilder()
+                    .sslContext(sslContext)
+                    .build();
+            init(client, appSecret, appKey, consumerKey);
+        } catch (NoSuchAlgorithmException | KeyManagementException exception) {
+            throw new IllegalStateException(exception);
+        }
     }
 
     public void init(Client jaxRsClient, String appSecret, String appKey, String consumerKey) {

@@ -5,8 +5,11 @@ import be.valuya.ovh.sms.domain.SmsJob;
 import be.valuya.ovh.sms.domain.SmsMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -53,8 +56,17 @@ public class SmsClientTest {
         resteasyJacksonProvider.setMapper(objectMapper);
         JaxbAnnotationModule jaxbModule = new JaxbAnnotationModule();
         objectMapper.registerModule(jaxbModule);
-        Client jaxRsClient = new ResteasyClientBuilder().register(resteasyJacksonProvider).build();
-        return jaxRsClient;
+        try {
+            SSLContext sslContext = SSLContext.getInstance("tlsv1");
+            sslContext.init(null, null, null);
+            Client jaxRsClient = new ResteasyClientBuilder()
+                    .register(resteasyJacksonProvider)
+                    .sslContext(sslContext)
+                    .build();
+            return jaxRsClient;
+        } catch (NoSuchAlgorithmException | KeyManagementException exception) {
+            throw new IllegalStateException(exception);
+        }
     }
 
 }
